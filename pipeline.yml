@@ -1,0 +1,26 @@
+pipeline {
+  agent any
+  tools {
+    maven 'Maven3' // Use the name you configured in Jenkins global tools
+  }
+  stages {
+    stage('Clone') {
+      steps {
+        git 'https://github.com/<your-username>/SampleJavaApp.git'
+      }
+    }
+    stage('Build') {
+      steps {
+        sh 'mvn clean package'
+      }
+    }
+  }
+  post {
+    success {
+      echo 'Build succeeded'
+    }
+    always {
+      archiveArtifacts artifacts: '**/target/*.jar', allowEmptyArchive: true
+    }
+  }
+}

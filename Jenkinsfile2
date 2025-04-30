@@ -1,0 +1,21 @@
+pipeline {
+  agent {
+    docker { image 'nginx:latest' }
+  }
+  stages {
+    stage('Start Nginx') {
+      steps {
+        script {
+          // Start Nginx in the background
+          sh 'nginx &'
+        }
+      }
+    }
+    stage('Test') {
+      steps {
+        // Test the Nginx server
+        sh 'curl localhost'
+      }
+    }
+  }
+}
